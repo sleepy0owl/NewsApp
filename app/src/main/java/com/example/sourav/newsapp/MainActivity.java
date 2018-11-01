@@ -14,13 +14,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String jsonResponse = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //get the arrayList of News using QueryUtils
-        ArrayList<News> newsList = QueryUtils.extractNews();
+        ArrayList<News> newsList = (ArrayList<News>) QueryUtils.extractNews(jsonResponse);
 
         //get the ListView to set the arrayList
         ListView listView = findViewById(R.id.list);
