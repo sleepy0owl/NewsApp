@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,11 +28,29 @@ public class NewsAdapter extends ArrayAdapter<News> {
         }
         News currentNews = getItem(position);
 
-        TextView titleTextView = listItemView.findViewById(R.id.Title);
-        titleTextView.setText(currentNews.getTitle());
+        if (currentNews != null) {
 
-        TextView dateTextView = listItemView.findViewById(R.id.published_date);
-        dateTextView.setText(currentNews.getPublishedDate());
+            ImageView thumbNail = listItemView.findViewById(R.id.thumbnail);
+            if (currentNews.getThumbnailUrl() != null) {
+                thumbNail.setVisibility(View.VISIBLE);
+                //use picasso to fetch the thumbnail using the url
+                Picasso.get().load(currentNews.getThumbnailUrl()).into(thumbNail);
+            }else {
+                thumbNail.setVisibility(View.GONE);
+            }
+            //Title of the article
+            TextView titleTextView = listItemView.findViewById(R.id.Title);
+            titleTextView.setText(currentNews.getTitle());
+            //trail Text of the article
+            TextView trailText = listItemView.findViewById(R.id.trailText);
+            trailText.setText(currentNews.getTrailText());
+            //published date of the article
+            TextView dateTextView = listItemView.findViewById(R.id.published_date);
+            dateTextView.setText(currentNews.getPublishedDate());
+            //section name textView
+            TextView sectionName = listItemView.findViewById(R.id.section_name);
+            sectionName.setText(currentNews.getSectionName());
+        }
 
         return listItemView;
     }

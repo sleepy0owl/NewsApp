@@ -2,7 +2,6 @@ package com.example.sourav.newsapp;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +26,13 @@ public final class QueryUtils {
     //private static final String jsonResponse = "";
 
     //private constructor so that no one can instantiate this class
-    private QueryUtils(){
+    private QueryUtils() {
 
     }
 
     /**
      * fetch news method fetches the news objects
+     *
      * @return List of News Objects
      */
     public static List<News> fetchNews(String requestUrl) {
@@ -41,6 +41,7 @@ public final class QueryUtils {
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
+            Log.v(TAG, jsonResponse);
         } catch (IOException e) {
             Log.e(TAG, "Problem in Http request.", e);
         }
@@ -53,7 +54,7 @@ public final class QueryUtils {
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
         //if the url object is null return
-        if (url == null){
+        if (url == null) {
             return jsonResponse;
         }
 
@@ -66,21 +67,22 @@ public final class QueryUtils {
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
-
+            Log.v(TAG, "connected ...");
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readInputStream(inputStream);
+                Log.v(TAG, "reading InputStream");
             } else {
                 Log.e(TAG, "Error in connection: " + urlConnection.getResponseCode());
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             Log.e(TAG, "Error in retrieving JSON response.", e);
-        }finally {
-            if (urlConnection != null){
+        } finally {
+            if (urlConnection != null) {
                 urlConnection.disconnect();
             }
 
-            if (inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -89,12 +91,14 @@ public final class QueryUtils {
 
     /**
      * creates a url object from sting url
+     *
      * @return url
      */
-    private static URL createUrl(String stringUrl){
+    private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
             url = new URL(stringUrl);
+            Log.v(TAG, "URL is created");
         } catch (MalformedURLException e) {
             Log.e(TAG, "Error building the url", e);
         }
@@ -103,11 +107,11 @@ public final class QueryUtils {
 
     private static String readInputStream(InputStream inputStream) throws IOException {
         StringBuilder outputString = new StringBuilder();
-        if (inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line = bufferedReader.readLine();
-            while (line != null){
+            while (line != null) {
                 outputString.append(line);
                 line = bufferedReader.readLine();
             }
@@ -115,34 +119,40 @@ public final class QueryUtils {
         return outputString.toString();
     }
 
-    public static List<News> extractNews(String jsonResponse){
+    public static List<News> extractNews(String jsonResponse) {
 
         //if the json response is null return null
-        if (TextUtils.isEmpty(jsonResponse)){
+        if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
 
         List<News> news = new ArrayList<>();
-        try{
+        try {
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
 
-            JSONArray newsJsonArray = baseJsonObject.getJSONArray("results");
+            JSONObject firstObject = baseJsonObject.getJSONObject("response");
+
+            JSONArray newsJsonArray = firstObject.getJSONArray("results");
 
             //loop over the newsJsonArray for the each news Json object
-            for (int i = 0; i < newsJsonArray.length(); i++){
+            for (int i = 0; i < newsJsonArray.length(); i++) {
                 JSONObject currentNews = newsJsonArray.getJSONObject(i);
 
+                //get fields array
+                JSONObject fieldsObject = currentNews.getJSONObject("fields");
                 // get the require information from currentNews object
+                String sectionName = currentNews.getString("sectionName");
                 String title = currentNews.getString("webTitle");
                 String date = currentNews.getString("webPublicationDate");
                 String webUrl = currentNews.getString("webUrl");
-                String apiUrl = currentNews.getString("apiUrl");
+                String thumbnailUrl = fieldsObject.getString("thumbnail");
+                String trailText = fieldsObject.getString("trailText");
 
                 //create a news object using this information and add it to arrayList
-                News  newsObject = new News(title, webUrl, apiUrl, date);
+                News newsObject = new News(title, webUrl, thumbnailUrl, trailText, date, sectionName);
                 news.add(newsObject);
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             Log.e(TAG, "Problem in parsing JSON object", e);
         }
         return news;
