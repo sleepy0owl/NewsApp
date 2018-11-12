@@ -151,7 +151,7 @@ public final class QueryUtils {
                 String authorName =  "";
                 for (int j = 0; j < tagsArray.length(); j++){
                     JSONObject contributorObject = tagsArray.getJSONObject(j);
-                    authorName += contributorObject.getString("webTitle");
+                    authorName += contributorObject.getString("webTitle") + " ";
                 }
 
                 //create a news object using this information and add it to arrayList

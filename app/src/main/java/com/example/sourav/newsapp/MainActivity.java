@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String API_KEY = "56102ca7-79dc-43f1-ba4f-843840929621";
 
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
 
     //"https://content.guardianapis.com/search?q=football&show-fields=thumbnail,trailText&api-key=" + API_KEY
 
