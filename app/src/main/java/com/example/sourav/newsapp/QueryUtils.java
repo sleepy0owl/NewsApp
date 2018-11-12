@@ -147,9 +147,15 @@ public final class QueryUtils {
                 String webUrl = currentNews.getString("webUrl");
                 String thumbnailUrl = fieldsObject.getString("thumbnail");
                 String trailText = fieldsObject.getString("trailText");
+                JSONArray tagsArray = currentNews.getJSONArray("tags");
+                String authorName =  "";
+                for (int j = 0; j < tagsArray.length(); j++){
+                    JSONObject contributorObject = tagsArray.getJSONObject(j);
+                    authorName += contributorObject.getString("webTitle");
+                }
 
                 //create a news object using this information and add it to arrayList
-                News newsObject = new News(title, webUrl, thumbnailUrl, trailText, date, sectionName);
+                News newsObject = new News(title, webUrl, thumbnailUrl, trailText, date, sectionName, authorName);
                 news.add(newsObject);
             }
         } catch (JSONException e) {

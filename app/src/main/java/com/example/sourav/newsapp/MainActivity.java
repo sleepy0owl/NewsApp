@@ -19,15 +19,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    //private static final String LOG_TAG = MainActivity.class.getName();
+    //this project shows user a sport news
 
     private static final String API_KEY = "56102ca7-79dc-43f1-ba4f-843840929621";
 
-    //private static final String BASE_URL = "http://content.guardianapis.com/search?";
-
-    //private static final String FIELDS = "&show-fields=thumbnail, trailText";
-
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?&show-fields=thumbnail,trailText&api-key=" + API_KEY;
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
 
     //"https://content.guardianapis.com/search?q=football&show-fields=thumbnail,trailText&api-key=" + API_KEY
 

@@ -7,14 +7,16 @@ public class News {
     private String mThumbnailUrl;
     private String mPublishedDate;
     private String mSectionName;
+    private String mAuthorName;
 
-    public News(String title, String webUrl, String thumbnailUrl, String trailText, String date, String section){
+    public News(String title, String webUrl, String thumbnailUrl, String trailText, String date, String section, String Author){
         mTitle = title;
         mWebUrl = webUrl;
         mThumbnailUrl = thumbnailUrl;
         mTrailText = trailText;
         mPublishedDate = date;
         mSectionName = section;
+        mAuthorName = Author;
     }
 
     //getter methods
@@ -40,6 +42,10 @@ public class News {
 
     public String getSectionName(){
         return mSectionName;
+    }
+
+    public String getAuthorName() {
+        return mAuthorName;
     }
 
 }
