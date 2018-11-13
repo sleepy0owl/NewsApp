@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String BASE_URL = "https://content.guardianapis.com/search?";
 
-    //private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
-
-    //"https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY
-
     private static final int NEWS_LOADER_ID = 1;
 
     private TextView mEmptyView;
@@ -118,8 +114,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("page-size", pageSize);
         uriBuilder.appendQueryParameter("api-key", API_KEY);
-
-        Log.v("MainActivity", uriBuilder.toString());
+        
 
         return new NewsLoader(this, uriBuilder.toString());
     }
