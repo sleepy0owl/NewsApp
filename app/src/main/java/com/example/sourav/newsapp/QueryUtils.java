@@ -148,8 +148,8 @@ public final class QueryUtils {
                 String thumbnailUrl = fieldsObject.getString("thumbnail");
                 String trailText = fieldsObject.getString("trailText");
                 JSONArray tagsArray = currentNews.getJSONArray("tags");
-                String authorName =  "";
-                for (int j = 0; j < tagsArray.length(); j++){
+                String authorName = "";
+                for (int j = 0; j < tagsArray.length(); j++) {
                     JSONObject contributorObject = tagsArray.getJSONObject(j);
                     authorName += contributorObject.getString("webTitle") + " ";
                 }

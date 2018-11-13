@@ -9,7 +9,7 @@ public class News {
     private String mSectionName;
     private String mAuthorName;
 
-    public News(String title, String webUrl, String thumbnailUrl, String trailText, String date, String section, String Author){
+    public News(String title, String webUrl, String thumbnailUrl, String trailText, String date, String section, String Author) {
         mTitle = title;
         mWebUrl = webUrl;
         mThumbnailUrl = thumbnailUrl;
@@ -20,27 +20,27 @@ public class News {
     }
 
     //getter methods
-    public String getTitle(){
+    public String getTitle() {
         return mTitle;
     }
 
-    public String getWebUrl(){
+    public String getWebUrl() {
         return mWebUrl;
     }
 
-    public String getThumbnailUrl(){
+    public String getThumbnailUrl() {
         return mThumbnailUrl;
     }
 
-    public String getTrailText(){
+    public String getTrailText() {
         return mTrailText;
     }
 
-    public String getPublishedDate(){
+    public String getPublishedDate() {
         return mPublishedDate;
     }
 
-    public String getSectionName(){
+    public String getSectionName() {
         return mSectionName;
     }
 

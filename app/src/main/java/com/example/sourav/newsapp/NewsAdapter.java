@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class NewsAdapter extends ArrayAdapter<News> {
-    public NewsAdapter(Context context, List<News> news){
+    public NewsAdapter(Context context, List<News> news) {
         super(context, 0, news);
     }
 
@@ -23,7 +23,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
-        if (listItemView == null){
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
         }
         News currentNews = getItem(position);
@@ -35,7 +35,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
                 thumbNail.setVisibility(View.VISIBLE);
                 //use picasso to fetch the thumbnail using the url
                 Picasso.get().load(currentNews.getThumbnailUrl()).into(thumbNail);
-            }else {
+            } else {
                 thumbNail.setVisibility(View.GONE);
             }
             //Title of the article
@@ -52,9 +52,9 @@ public class NewsAdapter extends ArrayAdapter<News> {
             sectionName.setText(currentNews.getSectionName());
             //author name textView
             TextView authorName = listItemView.findViewById(R.id.authorName);
-            if (currentNews.getAuthorName() != null){
+            if (currentNews.getAuthorName() != null) {
                 authorName.setText(currentNews.getAuthorName());
-            }else authorName.setText(" ");
+            } else authorName.setText(" ");
         }
 
         return listItemView;

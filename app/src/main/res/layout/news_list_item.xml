@@ -52,7 +52,7 @@
                 android:layout_marginLeft="@dimen/margin_8dp"
                 android:layout_marginRight="@dimen/margin_8dp"
                 android:textStyle="bold"
-                tools:text="Author"/>
+                tools:text="Author" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,9 +66,9 @@
                     android:layout_marginBottom="@dimen/margin_4dp"
                     android:layout_marginLeft="@dimen/margin_8dp"
                     android:layout_marginRight="@dimen/margin_8dp"
-                    android:textStyle="bold"
                     android:layout_weight="1"
-                    tools:text="Section Name"/>
+                    android:textStyle="bold"
+                    tools:text="Section Name" />
 
                 <TextView
                     android:id="@+id/published_date"

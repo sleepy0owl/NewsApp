@@ -4,11 +4,16 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,9 +28,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String API_KEY = "56102ca7-79dc-43f1-ba4f-843840929621";
 
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
+    private static final String BASE_URL = "https://content.guardianapis.com/search?";
 
-    //"https://content.guardianapis.com/search?q=football&show-fields=thumbnail,trailText&api-key=" + API_KEY
+    //private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY;
+
+    //"https://content.guardianapis.com/search?q=sport&show-fields=thumbnail,trailText&show-tags=contributor&api-key=" + API_KEY
 
     private static final int NEWS_LOADER_ID = 1;
 
@@ -73,10 +80,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if (networkInfo != null && networkInfo.isConnected()){
+        if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
-        }else {
+        } else {
             View loadingIndicator = findViewById(R.id.loading_indicator);
             loadingIndicator.setVisibility(View.GONE);
 
@@ -87,7 +94,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        return new NewsLoader(this, GUARDIAN_REQUEST_URL);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String section = sharedPreferences.getString(
+                getString(R.string.settings_section_key),
+                getString(R.string.settings_section_default)
+        );
+
+        String pageSize = sharedPreferences.getString(
+                getString(R.string.settings_page_key),
+                getString(R.string.settings_pageSize_default)
+        );
+
+        //base uri
+        Uri baseUri = Uri.parse(BASE_URL);
+
+        //uri builder
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("section", section);
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail,trailText");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("page-size", pageSize);
+        uriBuilder.appendQueryParameter("api-key", API_KEY);
+
+        Log.v("MainActivity", uriBuilder.toString());
+
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -97,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mEmptyView.setText(R.string.no_news_found);
 
-        if ( data != null && !data.isEmpty()){
+        if (data != null && !data.isEmpty()) {
             mNewsAdapter.addAll(data);
         }
     }
@@ -105,5 +139,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         mNewsAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.news_settings) {
+            Intent newsSettingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(newsSettingsIntent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

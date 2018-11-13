@@ -5,12 +5,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-
 import java.util.List;
 
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
-    private static final String LOG_TAG = NewsLoader.class.getName();
 
     private String mQueryUrl;
 
@@ -27,7 +25,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     @Nullable
     @Override
     public List<News> loadInBackground() {
-        if (mQueryUrl == null){
+        if (mQueryUrl == null) {
             return null;
         }
 
