@@ -15,5 +15,6 @@
     <string name="settings_pageSize_label">Page Size</string>
     <string name="settings_page_key">pageSize</string>
     <string name="settings_pageSize_default">10</string>
+    <string name="pageSize_hint">Maximum 50</string>
 
 </resources>
